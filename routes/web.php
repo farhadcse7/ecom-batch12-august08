@@ -10,6 +10,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerAuthController;
 
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
 Route::get('/product-category/{id}', [WebsiteController::class, 'category'])->name('product-category');
@@ -20,6 +21,14 @@ Route::get('/cart/show', [CartController::class, 'index'])->name('cart.show');
 Route::get('/cart/remove/{rowId}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/update/{rowId}', [CartController::class, 'update'])->name('cart.update');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/checkout/confirm-order', [CheckoutController::class, 'confirmOrder'])->name('checkout.confirm-order');
+Route::post('/customer/store', [CustomerAuthController::class, 'newCustomer'])->name('customer.store');
+
+Route::get('/customer/dashboard', [CustomerAuthController::class, 'dashboard'])->name('customer.dashboard');
+Route::get('/customer/login', [CustomerAuthController::class, 'login'])->name('customer.login');
+Route::post('/customer/login', [CustomerAuthController::class, 'loginCheck'])->name('customer.login');
+Route::get('/customer/register', [CustomerAuthController::class, 'register'])->name('customer.register');
+Route::get('/customer/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
 

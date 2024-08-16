@@ -9,4 +9,7 @@ class CheckoutController extends Controller
     public function index(){
         return view('website.checkout.index');
     }
+    public function confirmOrder(){
+        return view('website.checkout.confirm-order');
+    }
 }
