@@ -29,7 +29,8 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <h4 class="text-center">You have to login to start your checkout process. If you are not register then please register first.</h4>
+                    <h4 class="text-center">You have to login to start your checkout process. If you are not register
+                        then please register first.</h4>
                 </div>
 
                 <div class="account-login section">
@@ -46,18 +47,22 @@
 
                                         <div class="form-group input-group">
                                             <label for="reg-fn">Email</label>
-                                            <input class="form-control" name="email" type="email" id="reg-email" required>
+                                            <input class="form-control" name="email" type="email" id="reg-email"
+                                                   required>
                                         </div>
                                         <div class="form-group input-group">
                                             <label for="reg-fn">Password</label>
-                                            <input class="form-control" name="password" type="password" id="reg-pass" required>
+                                            <input class="form-control" name="password" type="password" id="reg-pass"
+                                                   required>
                                         </div>
                                         <div class="d-flex flex-wrap justify-content-between bottom-content">
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input width-auto" id="exampleCheck1">
+                                                <input type="checkbox" class="form-check-input width-auto"
+                                                       id="exampleCheck1">
                                                 <label class="form-check-label">Remember me</label>
                                             </div>
-                                            <a class="lost-pass" href="account-password-recovery.html">Forgot password?</a>
+                                            <a class="lost-pass" href="account-password-recovery.html">Forgot
+                                                password?</a>
                                         </div>
                                         <div class="button">
                                             <button class="btn" type="submit">Login</button>
@@ -81,15 +86,18 @@
                                         </div>
                                         <div class="form-group input-group">
                                             <label for="reg-email">Email</label>
-                                            <input class="form-control" name="email" type="email" id="reg-email" required>
+                                            <input class="form-control" name="email" type="email" id="reg-email"
+                                                   required>
                                         </div>
                                         <div class="form-group input-group">
                                             <label for="reg-pass">Password</label>
-                                            <input class="form-control" name="password" type="password" id="reg-pass" required>
+                                            <input class="form-control" name="password" type="password" id="reg-pass"
+                                                   required>
                                         </div>
                                         <div class="form-group input-group">
                                             <label for="reg-mobile">Mobile</label>
-                                            <input class="form-control" name="mobile" type="number" id="reg-mobile" required>
+                                            <input class="form-control" name="mobile" type="number" id="reg-mobile"
+                                                   required>
                                         </div>
 
                                         <div class="button">

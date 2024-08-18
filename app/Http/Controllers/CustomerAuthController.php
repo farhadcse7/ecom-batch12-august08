@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Session;
 
@@ -26,7 +27,9 @@ class CustomerAuthController extends Controller
 
     public function dashboard()
     {
-        return view('customer.dashboard');
+        return view('customer.dashboard', [
+            'orders' => Order::where('customer_id', Session::get('customer_id'))->latest()->get()
+        ]);
     }
 
     public function login()
@@ -36,7 +39,7 @@ class CustomerAuthController extends Controller
 
     public function loginCheck(Request $request)
     {
-       // return $request;
+        // return $request;
         $this->customer = Customer::where('email', $request->email)->first();
         if ($this->customer) {
             if (password_verify($request->password, $this->customer->password)) {
