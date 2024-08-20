@@ -151,7 +151,7 @@
                                     <ul class="shopping-list">
                                         @foreach(Cart::content() as $item)
                                             <li>
-                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
+                                                <a href="{{route('cart.remove', ['rowId'=>$item->rowId])}}" class="remove" title="Remove this item"><i
                                                         class="lni lni-close"></i></a>
                                                 <div class="cart-img-head">
                                                     <a class="cart-img" href=""><img
