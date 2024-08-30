@@ -12,6 +12,7 @@ use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\CourierController;
 
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
 Route::get('/product-category/{id}', [WebsiteController::class, 'category'])->name('product-category');
@@ -82,6 +83,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/admin-order/download-invoice/{id}', [AdminOrderController::class, 'downloadInvoice'])->name('admin-order.download-invoice');
     Route::get('/admin-order/destroy/{id}', [AdminOrderController::class, 'destroy'])->name('admin-order.destroy');
 
+    Route::resource('courier', CourierController::class);
 
 
 });
