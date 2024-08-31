@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Courier;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use PDF;
 
 class AdminOrderController extends Controller
 {
@@ -59,22 +61,33 @@ class AdminOrderController extends Controller
             $this->order->payment_status  = $request->order_status;
         }
         $this->order->save();
-        return redirect('/admin-order')->with('message','Admin order info updated successfully.');
+        return redirect('/admin-order')->with('message', 'Admin order info updated successfully.');
     }
 
 
     public function showInvoice($id)
     {
-        return view('admin.order.show-invoice');
+        return view('admin.order.show-invoice', ['order' => Order::find($id)]);
     }
 
     public function downloadInvoice($id)
     {
-        return view('admin.order.download-invoice');
+        //        $pdf=PDF::loadHTML('<h1>my first pdf</h1>');
+        $pdf = PDF::loadView('admin.order.download-invoice', ['order' => Order::find($id)]);
+        return $pdf->stream();
+
+        //        return view('admin.order.download-invoice');
     }
 
     public function destroy($id)
     {
-        return $id;
+//        return $id;
+        Order::find($id)->delete();
+        $orderDetails=OrderDetail::where('order_id', $id)->get();
+        foreach ($orderDetails as $orderDetail)
+        {
+            $orderDetail->delete();
+        }
+        return back()->with('message', 'Order info delete successfully.');
     }
 }
