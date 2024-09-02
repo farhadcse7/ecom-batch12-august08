@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderDetail;
 use DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
 use Session;
+use Cart;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -60,8 +63,8 @@ class SslCommerzPaymentController extends Controller
         $post_data['product_profile'] = "physical-goods";
 
         # OPTIONAL PARAMETERS
-        $post_data['value_a'] = "ref001";
-        $post_data['value_b'] = "ref002";
+        $post_data['value_a'] = $customer->id;
+        $post_data['value_b'] = $customer->name;
         $post_data['value_c'] = "ref003";
         $post_data['value_d'] = "ref004";
 
@@ -80,6 +83,20 @@ class SslCommerzPaymentController extends Controller
                 'transaction_id' => $post_data['tran_id'],
                 'currency' => $post_data['currency']
             ]);
+
+        $orderId = Order::orderBy('id','desc')->first()->id;
+        foreach (Cart::content() as $item)
+        {
+            $this->orderDetail = new OrderDetail();
+            $this->orderDetail->order_id = $orderId;
+            $this->orderDetail->product_id = $item->id;
+            $this->orderDetail->product_name = $item->name;
+            $this->orderDetail->product_price = $item->price;
+            $this->orderDetail->product_qty = $item->qty;
+            $this->orderDetail->save();
+
+            Cart::remove($item->rowId);
+        }
 
         $sslc = new SslCommerzNotification();
         # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
@@ -167,6 +184,10 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
+       // return $request;
+        Session::put('customer_id', $request->value_a);
+        Session::put('customer_name', $request->value_b);
+
         echo "Transaction is Successful";
 
         $tran_id = $request->input('tran_id');
@@ -178,9 +199,9 @@ class SslCommerzPaymentController extends Controller
         #Check order status in order tabel against the transaction id or order id.
         $order_details = DB::table('orders')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->select('transaction_id', 'order_status', 'currency', 'order_total')->first();
 
-        if ($order_details->status == 'Pending') {
+        if ($order_details->order_status == 'Pending') {
             $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
 
             if ($validation) {
@@ -191,15 +212,17 @@ class SslCommerzPaymentController extends Controller
                 */
                 $update_product = DB::table('orders')
                     ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
+                    ->update(['order_status' => 'Processing']);
 
                 echo "<br >Transaction is successfully Completed";
+                return redirect('/checkout/complete-order')->with('message', 'Order info save successfully.');
             }
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
+        } else if ($order_details->order_status == 'Processing' || $order_details->order_status == 'Complete') {
             /*
              That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
              */
             echo "Transaction is successfully Completed";
+            return redirect('/checkout/complete-order')->with('message', 'Order info save successfully.');
         } else {
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
@@ -214,17 +237,20 @@ class SslCommerzPaymentController extends Controller
 
         $order_details = DB::table('orders')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->select('transaction_id', 'order_status', 'currency', 'order_total')->first();
 
         if ($order_details->status == 'Pending') {
             $update_product = DB::table('orders')
                 ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Failed']);
+                ->update(['order_status' => 'Failed']);
             echo "Transaction is Falied";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
+            return redirect('/checkout/complete-order')->with('message', 'Transaction is Falied');
+        } else if ($order_details->order_status == 'Processing' || $order_details->order_status == 'Complete') {
             echo "Transaction is already Successful";
+            return redirect('/checkout/complete-order')->with('message', 'Transaction is already Successful');
         } else {
             echo "Transaction is Invalid";
+            return redirect('/checkout/complete-order')->with('message', 'Transaction is Invalid');
         }
 
     }
@@ -235,17 +261,20 @@ class SslCommerzPaymentController extends Controller
 
         $order_details = DB::table('orders')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->select('transaction_id', 'order_status', 'currency', 'order_total')->first();
 
         if ($order_details->status == 'Pending') {
             $update_product = DB::table('orders')
                 ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Canceled']);
+                ->update(['order_status' => 'Canceled']);
             echo "Transaction is Cancel";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
+            return redirect('/checkout/complete-order')->with('message', 'Transaction is Cancel');
+        } else if ($order_details->order_status == 'Processing' || $order_details->order_status == 'Complete') {
             echo "Transaction is already Successful";
+            return redirect('/checkout/complete-order')->with('message', 'Transaction is already Successful');
         } else {
             echo "Transaction is Invalid";
+            return redirect('/checkout/complete-order')->with('message', 'Transaction is Invalid');
         }
 
 

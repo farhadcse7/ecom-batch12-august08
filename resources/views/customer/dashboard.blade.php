@@ -5,8 +5,6 @@
 @endsection
 
 @section('body')
-
-
     <div class="breadcrumbs">
         <div class="container">
             <div class="row align-items-center">
@@ -24,54 +22,54 @@
             </div>
         </div>
     </div>
-
-
     <div class="account-login section">
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <h1>My Dashboard</h1>
-                    <h4>My Recent </h4>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>SL NO</th>
-                            <th>Order ID</th>
-                            <th>Order Total</th>
-                            <th>Order Date</th>
-                            <th>Order Status</th>
-                            <th>Payment Status</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($orders as $order)
+                <div class="col-md-3">
+                    @include('customer.includes.sidebar-menu')
+                </div>
+                <div class="col-md-9">
+                    <div class="card card-body">
+                        <h3>My Dashboard</h3>
+                        <hr/>
+                        <h5>My Recent </h5>
+                        <table class="table table-bordered table-hover">
+                            <thead>
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$order->id}}</td>
-                                <td>{{$order->order_total}}</td>
-                                <td>{{$order->order_date}}</td>
-                                <td>{{$order->order_status}}</td>
-                                <td>{{$order->payment_status}}</td>
-                                <td>
-                                    <a href="" class="btn btn-success btn-sm">
-                                        Detail
-                                    </a>
-                                    <a href="" class="btn btn-danger btn-sm">
-                                        Delete
-                                    </a>
-                                </td>
-
+                                <th>SL NO</th>
+                                <th>Order ID</th>
+                                <th>Order Total</th>
+                                <th>Order Date</th>
+                                <th>Order Status</th>
+                                <th>Payment Status</th>
+                                <th>Action</th>
                             </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($orders as $order)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$order->id}}</td>
+                                    <td>{{$order->order_total}}</td>
+                                    <td>{{$order->order_date}}</td>
+                                    <td>{{$order->order_status}}</td>
+                                    <td>{{$order->payment_status}}</td>
+                                    <td>
+                                        <a href="" class="btn btn-success btn-sm">
+                                            Detail
+                                        </a>
+                                        <a href="" class="btn btn-danger btn-sm">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 
 @endsection

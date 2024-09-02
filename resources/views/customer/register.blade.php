@@ -35,47 +35,37 @@
                             <h3>No Account? Register</h3>
                             <p>Registration takes less than a minute but gives you full control over your orders.</p>
                         </div>
-                        <form class="row" method="post">
+                        <form class="row" action="{{route('customer.store')}}" method="post">
+                            @csrf
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="reg-fn">First Name</label>
-                                    <input class="form-control" type="text" id="reg-fn" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="reg-ln">Last Name</label>
-                                    <input class="form-control" type="text" id="reg-ln" required>
+                                    <label for="reg-fn">Full Name</label>
+                                    <input class="form-control" name="name" type="text" id="reg-fn" required>
+                                    <input type="hidden" name="check_page" value="dashboard">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="reg-email">E-mail Address</label>
-                                    <input class="form-control" type="email" id="reg-email" required>
+                                    <input class="form-control" name="email" type="email" id="reg-email" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="reg-phone">Phone Number</label>
-                                    <input class="form-control" type="text" id="reg-phone" required>
+                                    <input class="form-control" name="mobile" type="text" id="reg-phone" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="reg-pass">Password</label>
-                                    <input class="form-control" type="password" id="reg-pass" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="reg-pass-confirm">Confirm Password</label>
-                                    <input class="form-control" type="password" id="reg-pass-confirm" required>
+                                    <input class="form-control" name="password" type="password" id="reg-pass" required>
                                 </div>
                             </div>
                             <div class="button">
                                 <button class="btn" type="submit">Register</button>
                             </div>
-                            <p class="outer-link">Already have an account? <a href="login.html">Login Now</a>
+                            <p class="outer-link">Already have an account? <a href="{{route('customer.login')}}">Login Now</a>
                             </p>
                         </form>
                     </div>

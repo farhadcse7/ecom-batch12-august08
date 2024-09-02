@@ -46,7 +46,8 @@ class CheckoutController extends Controller
             $this->order->payment_method = $request->payment_method;
             $this->order->save();
 
-            foreach (Cart::content() as $item) {
+            foreach (Cart::content() as $item)
+            {
                 $this->orderDetail = new OrderDetail();
                 $this->orderDetail->order_id = $this->order->id;
                 $this->orderDetail->product_id = $item->id;
@@ -64,8 +65,6 @@ class CheckoutController extends Controller
             $customer=Customer::find(Session::get('customer_id'));
             $this->sslCommerz = new SslCommerzPaymentController();
             $this->sslCommerz->index($request, $customer);
-
-
         }
 
     }

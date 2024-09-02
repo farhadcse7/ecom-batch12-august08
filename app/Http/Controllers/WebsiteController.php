@@ -10,6 +10,11 @@ class WebsiteController extends Controller
 {
     public function index()
     {
+        //helper method
+//        demo();
+//        exit();
+        //return demo();
+
         return view('website.home.index', [
             'products' => Product::latest()->take(8)->get(),
 //            'categories' => Category::all(),

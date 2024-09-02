@@ -21,12 +21,16 @@ class CustomerAuthController extends Controller
         Session::put('customer_id', $this->customer->id);
         Session::put('customer_name', $this->customer->name);
 
+        if (isset($request->check_page) && $request->check_page == 'dashboard'){
+            return redirect('/customer/dashboard');
+        }
         return redirect('/checkout/confirm-order');
 
     }
 
     public function dashboard()
     {
+        //return \Request::route()->getName();
         return view('customer.dashboard', [
             'orders' => Order::where('customer_id', Session::get('customer_id'))->latest()->get()
         ]);
@@ -45,7 +49,9 @@ class CustomerAuthController extends Controller
             if (password_verify($request->password, $this->customer->password)) {
                 Session::put('customer_id', $this->customer->id);
                 Session::put('customer_name', $this->customer->name);
-
+                if (isset($request->check_page) && $request->check_page == 'dashboard'){
+                    return redirect('/customer/dashboard');
+                }
                 return redirect('/checkout/confirm-order');
             } else {
                 return back()->with('message', 'Sorry ... Your password is not valid');

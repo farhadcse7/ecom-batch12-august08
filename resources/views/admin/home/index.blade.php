@@ -22,8 +22,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h3 class="mb-2 fw-semibold">1,12,324</h3>
-                            <p class="text-muted fs-13 mb-0">Daily Visitors</p>
+                            <h3 class="mb-2 fw-semibold">{{$total_today_order}}</h3>
+                            <p class="text-muted fs-13 mb-0">Todays Order</p>
                             <p class="text-muted mb-0 mt-2 fs-12">
                                                         <span class="icn-box text-success fw-semibold fs-13 me-1">
                                                             <i class='fa fa-long-arrow-up'></i>
@@ -45,8 +45,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h3 class="mb-2 fw-semibold">12,563</h3>
-                            <p class="text-muted fs-13 mb-0">Total Orders</p>
+                            <h3 class="mb-2 fw-semibold">{{$total_customer}}</h3>
+                            <p class="text-muted fs-13 mb-0">Total Customers</p>
                             <p class="text-muted mb-0 mt-2 fs-12">
                                                         <span class="icn-box text-danger fw-semibold fs-13 me-1">
                                                             <i class='fa fa-long-arrow-down'></i>
